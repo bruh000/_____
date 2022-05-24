@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') require('dotenv').config({ path: '.env' })
 
 const express = require('express')
 const app = express()
@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 const db = mongoose.connection
 db.on('error', err => console.log(err))
-db.once('error', () => console.log('Connected'))
+db.once('open', () => console.log('Connected to the db'))
 
 app.use('/', indexRouter)
 
