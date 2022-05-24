@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV != 'production') {
-  require('dotenv').config()
+  require('dotenv').config({ path: 'ENV_FILENAME' });
 }
 
 const express = require('express')
@@ -15,13 +15,12 @@ app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
 
-// const mongoose = require('mongoose')
-// mongoose.connect(process.env.DATABASE_URL, {
-//   useNewUrlParser: true
-// })
-// const db = mongoose.connection
-// db.on('error', err => console.log(err))
-// db.once('error', () => console.log('Connected'))
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true })
+
+const db = mongoose.connection
+db.on('error', err => console.log(err))
+db.once('error', () => console.log('Connected'))
 
 app.use('/', indexRouter)
 
